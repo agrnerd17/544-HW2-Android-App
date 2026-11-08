@@ -269,9 +269,9 @@ fun hw2InputValidation(input : String ) : Boolean {
 
     // TODO : Make sure the number is within range
 
-    // TODO : Make a separate Boolean function to check each validation requirement
+    // TODO : Make a separate Boolean function for each validation requirement
 
-    // TODO : Use each validation checker function to easily check for validation cases respond
+    // TODO : Use each validation checker function to easily isolate validation cases and respond
 
     // Regex checks if it's a valid real number format prefix
     // Allows typing negative sign, decimal points, and numbers
