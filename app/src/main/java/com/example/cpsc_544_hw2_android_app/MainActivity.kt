@@ -145,7 +145,7 @@ fun HWInputFields(heading : String, labelOne : String, labelTwo : String, labelT
             verticalArrangement = Arrangement.spacedBy(12.dp) // Adds equal spacing between items
 
         ) {
-            HeadingBox(heading, Modifier.align(Alignment.CenterHorizontally))
+            HeadingBox(heading)
             InputField(labelOne, side1, side1OnValueChanged)
             InputField(labelTwo, side2, side2OnValueChanged)
             InputField(labelThree, side3, side3OnValueChanged)
