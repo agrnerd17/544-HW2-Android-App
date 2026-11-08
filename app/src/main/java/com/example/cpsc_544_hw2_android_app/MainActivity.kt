@@ -246,6 +246,8 @@ fun GreetingPreview() {
 
 /**
  * HW2 functionality specific input process and actions
+ * @param String input - the input being processed
+ * @param mutableInput - the shared data being modified
  */
 fun hw2InputProcessing(input : String, mutableInput : MutableState<String>) {
 
@@ -262,6 +264,8 @@ fun hw2InputProcessing(input : String, mutableInput : MutableState<String>) {
 /**
  * Validates input according to HW 2 specifications
  * TODO : Call in the input validation and processing functions/lambdas
+ * @param String input - the input being validated
+ * @return Boolean whether the input passed the validation
  */
 fun hw2InputValidation(input : String ) : Boolean {
 
