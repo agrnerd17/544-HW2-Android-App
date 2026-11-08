@@ -71,17 +71,13 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
  * @param String label - the label for the input field
  */
 @Composable
-fun InputField(label: String, modifier: Modifier = Modifier) {
+fun InputField(label: String, currentValue: String,
+               onValueUpdate: (String) -> Unit, modifier: Modifier = Modifier) {
 
     var text by remember { mutableStateOf("") }
     OutlinedTextField(
-        value = text,
-        onValueChange = { newValue ->
-            // Filter: Only update the state if the new text is empty or purely digits
-            if (newValue.isEmpty() || newValue.all { it.isDigit() }) {
-                text = newValue
-            }
-        },
+        value = currentValue,
+        onValueChange = onValueUpdate,
         label = { Text("$label") },
         modifier = modifier,
         // 💡 This block overrides the default transparent container background
@@ -120,6 +116,34 @@ fun HWInputFields(heading : String, labelOne : String, labelTwo : String, labelT
 
     )
 
+    var side1 by remember { mutableStateOf("") }
+    var side2 by remember { mutableStateOf("") }
+    var side3 by remember { mutableStateOf("") }
+
+    var side1OnValueChanged = { newValue: String ->
+        // Regex checks if it's a valid real number format prefix
+        // Allows typing negative sign, decimal points, and numbers
+        if (newValue.isEmpty() || newValue.matches(Regex("^-?\\d*\\.?\\d*\$"))) {
+            side1 = newValue
+        }
+    }
+
+    var side2OnValueChanged = { newValue : String ->
+        // Regex checks if it's a valid real number format prefix
+        // Allows typing negative sign, decimal points, and numbers
+        if (newValue.isEmpty() || newValue.matches(Regex("^-?\\d*\\.?\\d*\$"))) {
+            side2 = newValue
+        }
+    }
+
+    var side3OnValueChanged = { newValue : String ->
+        // Regex checks if it's a valid real number format prefix
+        // Allows typing negative sign, decimal points, and numbers
+        if (newValue.isEmpty() || newValue.matches(Regex("^-?\\d*\\.?\\d*\$"))) {
+            side3 = newValue
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -136,10 +160,10 @@ fun HWInputFields(heading : String, labelOne : String, labelTwo : String, labelT
 
         ) {
             HeadingBox(heading, Modifier.align(Alignment.CenterHorizontally))
-            InputField(labelOne)
-            InputField(labelTwo)
-            InputField(labelThree)
-            ResultBox()
+            InputField(labelOne, side1, side1OnValueChanged)
+            InputField(labelTwo, side2, side2OnValueChanged)
+            InputField(labelThree, side3, side3OnValueChanged)
+            ResultBox(side1, side2, side3)
         }
     }
 }
@@ -177,8 +201,14 @@ fun HeadingBox(heading : String, modifier: Modifier = Modifier) {
  *
  */
 @Composable
-fun ResultBox() {
+fun ResultBox(side1 : String, side2 : String, side3 : String) {
 
+    // Safely converts the user input to Double, falls back to 0.0 if invalid
+    val side1Length: Double = side1.toDoubleOrNull() ?: 0.0
+    val side2Length: Double = side2.toDoubleOrNull() ?: 0.0
+    val side3Length: Double = side3.toDoubleOrNull() ?: 0.0
+
+    // TODO : Determine the type of triangle
     OutlinedTextField(
         value = "Results",
         onValueChange = {}, // Leave empty because it's read-only
