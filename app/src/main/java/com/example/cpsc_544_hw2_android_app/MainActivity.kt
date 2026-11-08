@@ -11,15 +11,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -116,33 +112,23 @@ fun HWInputFields(heading : String, labelOne : String, labelTwo : String, labelT
 
     )
 
-    var side1 by remember { mutableStateOf("") }
-    var side2 by remember { mutableStateOf("") }
-    var side3 by remember { mutableStateOf("") }
+    // Initialize the shared input values so it's reusable across the program
+    val side1Mutable = remember { mutableStateOf("") }
+    var side1 by side1Mutable
 
-    var side1OnValueChanged = { newValue: String ->
-        // Regex checks if it's a valid real number format prefix
-        // Allows typing negative sign, decimal points, and numbers
-        if (HW2InputValidation(newValue)) {
-            side1 = newValue
-        }
-    }
+    val side2Mutable = remember { mutableStateOf("") }
+    var side2 by side2Mutable
 
-    var side2OnValueChanged = { newValue : String ->
-        // Regex checks if it's a valid real number format prefix
-        // Allows typing negative sign, decimal points, and numbers
-        if (HW2InputValidation(newValue)) {
-            side2 = newValue
-        }
-    }
+    val side3Mutable = remember { mutableStateOf("") }
+    var side3 by side3Mutable
 
-    var side3OnValueChanged = { newValue : String ->
-        // Regex checks if it's a valid real number format prefix
-        // Allows typing negative sign, decimal points, and numbers
-        if (HW2InputValidation(newValue)) {
-            side3 = newValue
-        }
-    }
+    // Store the functions and lambdas for processing the user input
+    val side1OnValueChanged = { newValue : String -> hw2InputProcessing(newValue,
+        side1Mutable )}
+    val side2OnValueChanged = { newValue : String -> hw2InputProcessing(newValue,
+        side2Mutable )}
+    val side3OnValueChanged = { newValue : String -> hw2InputProcessing(newValue,
+        side3Mutable )}
 
     Box(
         modifier = Modifier
@@ -259,18 +245,37 @@ fun GreetingPreview() {
 }
 
 /**
+ * HW2 functionality specific input process and actions
+ */
+fun hw2InputProcessing(input : String, mutableInput : MutableState<String>) {
+
+    // TODO : Check for errors and alert user
+
+    // Regex checks if it's a valid real number format prefix
+    // Allows typing negative sign, decimal points, and numbers
+    if (hw2InputValidation(input)) {
+        mutableInput.value = input
+    }
+
+}
+
+/**
  * Validates input according to HW 2 specifications
  * TODO : Call in the input validation and processing functions/lambdas
  */
-fun HW2InputValidation(input : String ) : Boolean {
+fun hw2InputValidation(input : String ) : Boolean {
 
     // TODO : Check if it's the proper number format
 
     // TODO : Make sure the number is within range
 
+    // TODO : Make a separate Boolean function to check each validation requirement
+
+    // TODO : Use each validation checker function to easily check for validation cases respond
+
     // Regex checks if it's a valid real number format prefix
     // Allows typing negative sign, decimal points, and numbers
-    var isValid = input.isEmpty() || input.matches(Regex("^-?\\d*\\.?\\d*\$"))
+    val isValid = input.isEmpty() || input.matches(Regex("^-?\\d*\\.?\\d*\$"))
 
     return isValid
 }
