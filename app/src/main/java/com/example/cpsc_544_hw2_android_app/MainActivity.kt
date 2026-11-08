@@ -123,7 +123,7 @@ fun HWInputFields(heading : String, labelOne : String, labelTwo : String, labelT
     var side1OnValueChanged = { newValue: String ->
         // Regex checks if it's a valid real number format prefix
         // Allows typing negative sign, decimal points, and numbers
-        if (newValue.isEmpty() || newValue.matches(Regex("^-?\\d*\\.?\\d*\$"))) {
+        if (HW2InputValidation(newValue)) {
             side1 = newValue
         }
     }
@@ -131,7 +131,7 @@ fun HWInputFields(heading : String, labelOne : String, labelTwo : String, labelT
     var side2OnValueChanged = { newValue : String ->
         // Regex checks if it's a valid real number format prefix
         // Allows typing negative sign, decimal points, and numbers
-        if (newValue.isEmpty() || newValue.matches(Regex("^-?\\d*\\.?\\d*\$"))) {
+        if (HW2InputValidation(newValue)) {
             side2 = newValue
         }
     }
@@ -139,7 +139,7 @@ fun HWInputFields(heading : String, labelOne : String, labelTwo : String, labelT
     var side3OnValueChanged = { newValue : String ->
         // Regex checks if it's a valid real number format prefix
         // Allows typing negative sign, decimal points, and numbers
-        if (newValue.isEmpty() || newValue.matches(Regex("^-?\\d*\\.?\\d*\$"))) {
+        if (HW2InputValidation(newValue)) {
             side3 = newValue
         }
     }
@@ -256,4 +256,21 @@ fun GreetingPreview() {
     CPSC544HW2AndroidAppTheme {
         Greeting("Android")
     }
+}
+
+/**
+ * Validates input according to HW 2 specifications
+ * TODO : Call in the input validation and processing functions/lambdas
+ */
+fun HW2InputValidation(input : String ) : Boolean {
+
+    // TODO : Check if it's the proper number format
+
+    // TODO : Make sure the number is within range
+
+    // Regex checks if it's a valid real number format prefix
+    // Allows typing negative sign, decimal points, and numbers
+    var isValid = input.isEmpty() || input.matches(Regex("^-?\\d*\\.?\\d*\$"))
+
+    return isValid
 }
