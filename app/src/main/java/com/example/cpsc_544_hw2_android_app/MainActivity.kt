@@ -211,7 +211,9 @@ fun ResultBox(side1 : String, side2 : String, side3 : String) {
     // TODO : Determine the type of triangle
     OutlinedTextField(
         value = "Results",
-        onValueChange = {}, // Leave empty because it's read-only
+        onValueChange = {// TODO : Write the code to show the results of user input. The different side lengths
+            //TODO : And the type of triangle
+            }, // Leave empty because it's read-only
         label = { Text("Results") },
         readOnly = true, // Prevents user typing/input
         modifier = Modifier
