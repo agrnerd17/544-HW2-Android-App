@@ -190,16 +190,41 @@ fun HeadingBox(heading : String, modifier: Modifier = Modifier) {
 fun ResultBox(side1 : String, side2 : String, side3 : String) {
 
     // Safely converts the user input to Double, falls back to 0.0 if invalid
-    val side1Length: Double = side1.toDoubleOrNull() ?: 0.0
-    val side2Length: Double = side2.toDoubleOrNull() ?: 0.0
-    val side3Length: Double = side3.toDoubleOrNull() ?: 0.0
+    val side1Length = side1.toDoubleOrNull()
+    val side2Length = side2.toDoubleOrNull()
+    val side3Length = side3.toDoubleOrNull()
+    val resultText = if (
+        side1Length == null ||
+        side2Length == null ||
+        side3Length == null
+    ) {
+        "Please enter three valid numbers."
+    } else {
+        val a = side1Length
+        val b = side2Length
+        val c = side3Length
 
-    // TODO : Determine the type of triangle
+        when {
+            a !in 1.0..100.0 ||
+                    b !in 1.0..100.0 ||
+                    c !in 1.0..100.0 ->
+                "Side lengths must be between 1 and 100."
+
+            a + b <= c || a + c <= b || b + c <= a ->
+                "These side lengths cannot form a triangle."
+
+            a == b && b == c ->
+                "Equilateral Triangle!"
+
+            else ->
+                "Valid triangle (not equilateral)."
+        }
+    }
+
+
     OutlinedTextField(
-        value = "Results",
-        onValueChange = {// TODO : Write the code to show the results of user input. The different side lengths
-            //TODO : And the type of triangle
-            }, // Leave empty because it's read-only
+        value = resultText,
+        onValueChange = {},
         label = { Text("Results") },
         readOnly = true, // Prevents user typing/input
         modifier = Modifier
