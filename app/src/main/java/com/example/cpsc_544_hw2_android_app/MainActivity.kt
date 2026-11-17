@@ -213,11 +213,11 @@ fun ResultBox(side1 : String, side2 : String, side3 : String) {
             a + b <= c || a + c <= b || b + c <= a ->
                 "These side lengths cannot form a triangle."
 
-            a == b && b == c ->
-                "Equilateral Triangle!"
+            a == b || a == c || b == c ->
+                "Isosceles Triangle!"
 
             else ->
-                "Valid triangle (not equilateral)."
+                "Scalene Triangle."
         }
     }
 
