@@ -217,39 +217,49 @@ fun ResultBox(side1: String, side2: String, side3: String) {
     val side2Length = side2.toDoubleOrNull()
     val side3Length = side3.toDoubleOrNull()
 
-    val resultText = if (
+    val resultText = when {
+        side1 == "0" && side2.isBlank() && side3.isBlank() ->
+            "Ciao!"
+
+        side1.isBlank() ||
+        side2.isBlank() ||
+        side3.isBlank() ||
         side1Length == null ||
         side2Length == null ||
-        side3Length == null
-    ) {
-        "Please enter three valid numbers."
-    } else {
-        val a = side1Length
-        val b = side2Length
-        val c = side3Length
+        side3Length == null ->
+            "Invalid. Need more input."
 
-        when {
-            a !in 1.0..100.0 ||
-                    b !in 1.0..100.0 ||
-                    c !in 1.0..100.0 ->
-                "Side lengths must be between 1 and 100."
+        else -> {
+            val a = side1Length
+            val b = side2Length
+            val c = side3Length
 
-            a + b <= c || a + c <= b || b + c <= a ->
-                "These side lengths cannot form a triangle."
+            when {
+                a == 0.0 || b == 0.0 || c == 0.0 ->
+                    "The End"
 
-            a == b && b == c ->
-                "Equilateral Triangle!"
+                a !in 1.0..100.0 ||
+                        b !in 1.0..100.0 ||
+                        c !in 1.0..100.0 ->
+                    "Side lengths must be between 1 and 100."
 
-            // NEW: Scalene Triangle Logic
-            // All three sides must have different lengths
-            a != b && b != c && a != c ->
-                "Scalene Triangle!"
+                a + b <= c || a + c <= b || b + c <= a ->
+                    "These side lengths cannot form a triangle."
 
-            a != b && b != c && c != c ->
-                "Scalene Triangle"
+                a == b && b == c ->
+                    "Equilateral Triangle!"
 
-            else ->
-                "Valid triangle (not equilateral)."
+                a == b || a == c || b == c ->
+                    "Isosceles Triangle!"
+
+                // NEW: Scalene Triangle Logic
+                // All three sides must have different lengths
+                a != b && b != c && a != c ->
+                    "Scalene Triangle!"
+
+                else ->
+                    "Valid triangle (not equilateral)."
+            }
         }
     }
 
