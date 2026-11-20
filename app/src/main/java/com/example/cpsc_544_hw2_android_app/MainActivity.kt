@@ -1,3 +1,4 @@
+
 package com.example.cpsc_544_hw2_android_app
 
 import android.os.Bundle
@@ -67,10 +68,15 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
  * @param String label - the label for the input field
  */
 @Composable
-fun InputField(label: String, currentValue: String,
-               onValueUpdate: (String) -> Unit, modifier: Modifier = Modifier) {
+fun InputField(
+    label: String,
+    currentValue: String,
+    onValueUpdate: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
 
     var text by remember { mutableStateOf("") }
+
     OutlinedTextField(
         value = currentValue,
         onValueChange = onValueUpdate,
@@ -78,18 +84,18 @@ fun InputField(label: String, currentValue: String,
         modifier = modifier,
         // 💡 This block overrides the default transparent container background
         colors = TextFieldDefaults.colors(
-                focusedTextColor = Color.Black,
-                unfocusedTextColor = Color.Gray,
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White,
-                focusedIndicatorColor = Color.Blue,
-                unfocusedIndicatorColor = Color.LightGray),
+            focusedTextColor = Color.Black,
+            unfocusedTextColor = Color.Gray,
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White,
+            focusedIndicatorColor = Color.Blue,
+            unfocusedIndicatorColor = Color.LightGray
+        ),
         // Forces the software keyboard to display the numeric keypad
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Number
+        )
     )
-
-
-
 }
 
 /**
@@ -100,7 +106,13 @@ fun InputField(label: String, currentValue: String,
  * @param String labelThree - the label for the third input field
  */
 @Composable
-fun HWInputFields(heading : String, labelOne : String, labelTwo : String, labelThree : String, modifier: Modifier = Modifier) {
+fun HWInputFields(
+    heading: String,
+    labelOne: String,
+    labelTwo: String,
+    labelThree: String,
+    modifier: Modifier = Modifier
+) {
 
     // 1. Define your gradient colors
     // Define the high-contrast color brush
@@ -109,7 +121,6 @@ fun HWInputFields(heading : String, labelOne : String, labelTwo : String, labelT
             Color(0xFF00F2FE), // Bright Electric Cyan
             Color(0xFF4FACFE)  // Deep Royal Blue
         )
-
     )
 
     // Initialize the shared input values so it's reusable across the program
@@ -123,12 +134,17 @@ fun HWInputFields(heading : String, labelOne : String, labelTwo : String, labelT
     var side3 by side3Mutable
 
     // Store the functions and lambdas for processing the user input
-    val side1OnValueChanged = { newValue : String -> hw2InputProcessing(newValue,
-        side1Mutable )}
-    val side2OnValueChanged = { newValue : String -> hw2InputProcessing(newValue,
-        side2Mutable )}
-    val side3OnValueChanged = { newValue : String -> hw2InputProcessing(newValue,
-        side3Mutable )}
+    val side1OnValueChanged = { newValue: String ->
+        hw2InputProcessing(newValue, side1Mutable)
+    }
+
+    val side2OnValueChanged = { newValue: String ->
+        hw2InputProcessing(newValue, side2Mutable)
+    }
+
+    val side3OnValueChanged = { newValue: String ->
+        hw2InputProcessing(newValue, side3Mutable)
+    }
 
     Box(
         modifier = Modifier
@@ -142,8 +158,8 @@ fun HWInputFields(heading : String, labelOne : String, labelTwo : String, labelT
                 .padding(16.dp)
                 .align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp) // Adds equal spacing between items
-
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+            // Adds equal spacing between items
         ) {
             HeadingBox(heading)
             InputField(labelOne, side1, side1OnValueChanged)
@@ -160,9 +176,13 @@ fun HWInputFields(heading : String, labelOne : String, labelTwo : String, labelT
 @Composable
 fun TestHWInputField(modifier: Modifier = Modifier) {
 
-
-    HWInputFields("Triangle", "Side 1", "Side 2", "Side 3", modifier)
-
+    HWInputFields(
+        "Triangle",
+        "Side 1",
+        "Side 2",
+        "Side 3",
+        modifier
+    )
 }
 
 /**
@@ -170,13 +190,17 @@ fun TestHWInputField(modifier: Modifier = Modifier) {
  * @param heading - The heading text
  */
 @Composable
-fun HeadingBox(heading : String, modifier: Modifier = Modifier) {
+fun HeadingBox(
+    heading: String,
+    modifier: Modifier = Modifier
+) {
 
-    Box(modifier = modifier,
+    Box(
+        modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
-
-        Text(text = "$heading",
+        Text(
+            text = "$heading",
             fontSize = 24.sp
         )
     }
@@ -184,15 +208,15 @@ fun HeadingBox(heading : String, modifier: Modifier = Modifier) {
 
 /**
  * Creates the results display for the HW 2 app.
- *
  */
 @Composable
-fun ResultBox(side1 : String, side2 : String, side3 : String) {
+fun ResultBox(side1: String, side2: String, side3: String) {
 
     // Safely converts the user input to Double, falls back to 0.0 if invalid
     val side1Length = side1.toDoubleOrNull()
     val side2Length = side2.toDoubleOrNull()
     val side3Length = side3.toDoubleOrNull()
+
     val resultText = if (
         side1Length == null ||
         side2Length == null ||
@@ -216,14 +240,15 @@ fun ResultBox(side1 : String, side2 : String, side3 : String) {
             a == b && b == c ->
                 "Equilateral Triangle!"
 
-            a == b || a == c || b == c ->
-                "Isosceles Triangle!"
+            // NEW: Scalene Triangle Logic
+            // All three sides must have different lengths
+            a != b && b != c && a != c ->
+                "Scalene Triangle!"
 
             else ->
                 "Valid triangle (not equilateral)."
         }
     }
-
 
     OutlinedTextField(
         value = resultText,
@@ -233,14 +258,15 @@ fun ResultBox(side1 : String, side2 : String, side3 : String) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
-                // 💡 This block overrides the default transparent container background
+        // 💡 This block overrides the default transparent container background
         colors = TextFieldDefaults.colors(
             focusedTextColor = Color.Black,
-        unfocusedTextColor = Color.Gray,
-        focusedContainerColor = Color.White,
-        unfocusedContainerColor = Color.White,
-        focusedIndicatorColor = Color.Blue,
-        unfocusedIndicatorColor = Color.LightGray),
+            unfocusedTextColor = Color.Gray,
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White,
+            focusedIndicatorColor = Color.Blue,
+            unfocusedIndicatorColor = Color.LightGray
+        ),
     )
 }
 
@@ -252,13 +278,8 @@ fun ResultBox(side1 : String, side2 : String, side3 : String) {
 fun InputPreview() {
 
     CPSC544HW2AndroidAppTheme {
-
-
         TestHWInputField()
-
     }
-
-
 }
 
 /**
@@ -277,16 +298,17 @@ fun GreetingPreview() {
  * @param String input - the input being processed
  * @param mutableInput - the shared data being modified
  */
-fun hw2InputProcessing(input : String, mutableInput : MutableState<String>) {
+fun hw2InputProcessing(
+    input: String,
+    mutableInput: MutableState<String>
+) {
 
     // TODO : Check for errors and alert user
-
     // Regex checks if it's a valid real number format prefix
     // Allows typing negative sign, decimal points, and numbers
     if (hw2InputValidation(input)) {
         mutableInput.value = input
     }
-
 }
 
 /**
@@ -295,19 +317,17 @@ fun hw2InputProcessing(input : String, mutableInput : MutableState<String>) {
  * @param String input - the input being validated
  * @return Boolean whether the input passed the validation
  */
-fun hw2InputValidation(input : String ) : Boolean {
+fun hw2InputValidation(input: String): Boolean {
 
     // TODO : Check if it's the proper number format
-
     // TODO : Make sure the number is within range
-
     // TODO : Make a separate Boolean function for each validation requirement
-
     // TODO : Use each validation checker function to easily isolate validation cases and respond
 
     // Regex checks if it's a valid real number format prefix
     // Allows typing negative sign, decimal points, and numbers
-    val isValid = input.isEmpty() || input.matches(Regex("^-?\\d*\\.?\\d*\$"))
+    val isValid = input.isEmpty() ||
+            input.matches(Regex("^-?\\d*\\.?\\d*$"))
 
     return isValid
 }
