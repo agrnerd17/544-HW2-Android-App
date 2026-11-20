@@ -249,10 +249,12 @@ fun ResultBox(side1: String, side2: String, side3: String) {
                 a == b && b == c ->
                     "Equilateral Triangle!"
 
-                a == b || a == c || b == c ->
+                // Isosceles Triangle Logic
+                // Exactly two sides must have equal lengths
+                (a == b || b == c || a == c) ->
                     "Isosceles Triangle!"
 
-                // NEW: Scalene Triangle Logic
+                // Scalene Triangle Logic
                 // All three sides must have different lengths
                 a != b && b != c && a != c ->
                     "Scalene Triangle!"
