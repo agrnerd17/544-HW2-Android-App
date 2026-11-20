@@ -219,6 +219,9 @@ fun ResultBox(side1 : String, side2 : String, side3 : String) {
             a == b || a == c || b == c ->
                 "Isosceles Triangle!"
 
+            a != b && b != c && c != c ->
+                "Scalene Triangle"
+
             else ->
                 "Valid triangle (not equilateral)."
         }
