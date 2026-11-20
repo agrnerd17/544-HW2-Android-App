@@ -240,7 +240,7 @@ fun ResultBox(side1: String, side2: String, side3: String) {
             a == b && b == c ->
                 "Equilateral Triangle!"
 
-            // NEW: Scalene triangle classification
+            // NEW: Scalene Triangle Logic
             // All three sides must have different lengths
             a != b && b != c && a != c ->
                 "Scalene Triangle!"
